@@ -24,9 +24,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Add any gems that your plugin needs to run within a host application
-  spec.add_runtime_dependency "rgen_core", ">= 2.5.0.pre147"
-  
-    spec.add_runtime_dependency "rgen_testers", ">= 0.3.0.pre35"
+  spec.add_runtime_dependency "origen", ">= 0.2"
+  spec.add_runtime_dependency "origen_testers"
   
   # Add any gems that your plugin needs for its development environment only
   #spec.add_development_dependency "doc_helpers", ">= 1.7.0"
