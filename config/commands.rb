@@ -38,9 +38,9 @@ when "my_command"
 #  exit 0 # This will never be hit on a fail, RSpec will automatically exit 1
 
 ## Example of how to make a command to run diff-based tests
-#when "examples"  
+when "examples"  
 #  RGen.load_application
-#  status = 0
+  status = 0
 #
 #  # Compiler tests
 #  ARGV = %w(templates/example.txt.erb -t debug -r approved)
@@ -60,7 +60,7 @@ when "my_command"
 #    status = 1
 #  end
 #  puts
-#  exit status  # Exit with a 1 on the event of a failure per std unix result codes
+  exit status  # Exit with a 1 on the event of a failure per std unix result codes
 
 # Always leave an else clause to allow control to fall back through to the
 # RGen command handler.
