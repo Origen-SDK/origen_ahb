@@ -7,4 +7,4 @@
 require "bundler/setup"
 require "origen"
 
-RGen.app.load_tasks
+Origen.app.load_tasks
