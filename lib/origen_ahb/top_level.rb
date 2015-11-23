@@ -6,7 +6,7 @@ module OrigenAhb
     #
     #   > $dut.hi
     def hi
-      puts "Hello master!"
+      puts 'Hello master!'
     end
   end
 end
