@@ -64,7 +64,7 @@ when "examples"
 
 # Always leave an else clause to allow control to fall back through to the
 # RGen command handler.
-else
+#else
   # You probably want to also add the your commands to the help shown via
   # rgen -h, you can do this be assigning the required text to @application_commands
   # before handing control back to RGen. Un-comment the example below to get started.
@@ -73,4 +73,9 @@ else
 # examples     Run the examples (tests), -c will enable coverage
 #  EOT
 
-end 
+
+when "specs"
+  status = 0
+  exit status
+
+end #case
