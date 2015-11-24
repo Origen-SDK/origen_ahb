@@ -31,7 +31,7 @@ module OrigenAhb
         hmastlock: 0,
         hprot:     0xF
       }.merge(options)
-      cc '==== AHB Read Transaction ===='
+      cc '==== AHB Write Transaction ===='
       cc 'Address: 0x' + options[:haddr].to_s(16) + ' Data: 0x' + options[:hdata].to_s(16) + ' Size: ' + options[:hsize].to_s
       $dut.ahb_trans(options)
     end
