@@ -1,8 +1,7 @@
 ---
-layout: bootstrap
-title: <%= options[:title] || RGen.app.namespace %>
+title: <%= options[:title] || Origen.config.name %>
 ---
-<%= render "templates/web/partials/navbar.html", tab: options[:tab] %>
+<%= render "partials/navbar.html", tab: options[:tab] %>
 
 <div class="row">
 %# The markdown attribute is important if you are going to include content written
