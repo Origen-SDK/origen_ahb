@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    origen_ahb (0.2.0.pre3)
+    origen_ahb (0.2.0.pre4)
       origen (>= 0.2)
       origen_testers
 
