@@ -8,8 +8,8 @@ module OrigenAhb
 
     def read_register(reg_or_val, options = {})
       options = {
-        haddr:     reg_or_val.address,
-        hdata:     reg_or_val.data,
+        haddr:     options[:address] || reg_or_val.address,
+        hdata:     reg_or_val,
         hwrite:    0,
         hsize:     get_hsize(reg_or_val.size),
         hburst:    0,
@@ -17,14 +17,20 @@ module OrigenAhb
         hprot:     0xF
       }.merge(options)
       cc '==== AHB Read Transaction ===='
-      cc 'Address: 0x' + options[:haddr].to_s(16) + ' Data: 0x' + options[:hdata].to_s(16) + ' Size: ' + options[:hsize].to_s
+      if reg_or_val.respond_to?('data')
+        data = reg_or_val.data
+      else
+        data = reg_or_val
+        options[:hsize] = 2
+      end
+      cc 'Address: 0x' + options[:haddr].to_s(16) + ' Data: 0x' + data.to_s(16) + ' Size: ' + options[:hsize].to_s
       $dut.ahb_trans(options)
     end
 
     def write_register(reg_or_val, options = {})
       options = {
-        haddr:     reg_or_val.address,
-        hdata:     reg_or_val.data,
+        haddr:     options[:address] || reg_or_val.address,
+        hdata:     reg_or_val,
         hwrite:    1,
         hsize:     get_hsize(reg_or_val.size),
         hburst:    0,
@@ -32,7 +38,13 @@ module OrigenAhb
         hprot:     0xF
       }.merge(options)
       cc '==== AHB Write Transaction ===='
-      cc 'Address: 0x' + options[:haddr].to_s(16) + ' Data: 0x' + options[:hdata].to_s(16) + ' Size: ' + options[:hsize].to_s
+      if reg_or_val.respond_to?('data')
+        data = reg_or_val.data
+      else
+        data = reg_or_val
+        options[:hsize] = 2
+      end
+      cc 'Address: 0x' + options[:haddr].to_s(16) + ' Data: 0x' + data.to_s(16) + ' Size: ' + options[:hsize].to_s
       $dut.ahb_trans(options)
     end
 
