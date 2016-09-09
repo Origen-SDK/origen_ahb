@@ -17,7 +17,7 @@ module OrigenAhb
         add_pin :tdo
         add_pin :tms
         add_pin :resetb
- 
+
         # AHB Control Signals
         add_pin :hclk
         add_pin :hready
@@ -32,16 +32,15 @@ module OrigenAhb
         add_pin :haddr, size: 32
         add_pin :hwdata, size: 32
         add_pin :hrdata, size: 32
-     end
+      end
 
       def instantiate_registers(options = {})
         add_reg :top_reg, 0x20000000, 32, data: { pos: 0, bits: 32 }
       end
-      
+
       def instantiate_sub_blocks(options = {})
         sub_block :block, class_name: 'OrigenAhb::Test::BLOCK', base_address: 0x2200_0000
       end
-
     end
   end
 end

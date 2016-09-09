@@ -2,26 +2,26 @@ module OrigenAhb
   module Test
     class DUTController
       include Origen::Controller
-      
+
       def startup(options = {})
         tester.set_timeset('ahb', 40)
-        
+
         init_pins     # Give pattern a known start up
-        
+
         # Do some startup stuff here
         pin(:resetb).drive(0)
         tester.wait time_in_ns: 250
         pin(:resetb).drive(1)
       end
-      
+
       def shutdown(options = {})
         # Shut everything down
         tester.wait time_in_ns: 250
         pin(:resetb).drive(0)
-        
+
         cleanup_pins  # Give patterns a known exit condition
       end
-      
+
       def init_pins
         pin(:resetb).drive(0)
         pin(:tclk).drive(0)
@@ -29,7 +29,7 @@ module OrigenAhb
         pin(:tms).drive(0)
         pin(:tdo).dont_care
       end
-      
+
       def cleanup_pins
         pin(:resetb).drive(0)
         pin(:tclk).drive(0)
@@ -37,7 +37,7 @@ module OrigenAhb
         pin(:tms).drive(0)
         pin(:tdo).dont_care
       end
-      
+
       def write_register(reg, options = {})
         ahb.write_register(reg, options)
       end
@@ -59,7 +59,7 @@ module OrigenAhb
         pins(:hwdata).dont_care
         pins(:hrdata).dont_care
         tester.cycle
-        
+
         # Address Phase
         #
         # Master drives the address and control signals onto bus after the rising edge of HCLK
@@ -76,10 +76,10 @@ module OrigenAhb
 
         pin(:hclk).drive(0)
         tester.cycle
-       
+
         # Data Phase
         #
-        # Slave samples the address and control information on the next rising edge of HCLK 
+        # Slave samples the address and control information on the next rising edge of HCLK
         pin(:hclk).drive(1)
         tester.cycle
 
@@ -87,11 +87,11 @@ module OrigenAhb
         pin(:hready).compare(1)
         pins(:hwdata).drive(options[:hdata]) if options[:hwrite] == 1
         tester.cycle
-        
+
         pin(:hclk).drive(1)
         pins(:hrdata).assert(options[:hdata]) if options[:hwrite] == 0
         tester.cycle
-        
+
         pin(:hclk).drive(0)
         tester.cycle
 
@@ -107,14 +107,10 @@ module OrigenAhb
         pins(:hwdata).dont_care
         pins(:hrdata).dont_care
         tester.cycle
-      
 
         pin(:hclk).drive(0)
         tester.cycle
-
-      
       end
-     
     end
   end
 end
