@@ -1,12 +1,12 @@
+require 'origen'
 class OrigenAhbApplication < Origen::Application
 
   # This information is used in headers and email templates, set it specific
   # to your application
-  config.name     = "origen ahb"
-  config.initials = "OrigenAhb"
-
   self.name = "origen_ahb"
   self.namespace = "OrigenAhb"
+  config.name     = "origen_ahb"
+  config.initials = "OrigenAhb"
   config.rc_url = "git@github.com:Origen-SDK/origen_ahb.git"
   config.release_externally = true
 
@@ -42,6 +42,7 @@ class OrigenAhbApplication < Origen::Application
   def before_deploy_site 
     Dir.chdir Origen.root do 
       system "origen examples -c" 
+      system "origen specs -c" 
       dir = "#{Origen.root}/web/output/coverage"        
       FileUtils.remove_dir(dir, true) if File.exists?(dir)  
       system "mv #{Origen.root}/coverage #{dir}" 

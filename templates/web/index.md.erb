@@ -6,14 +6,121 @@
 
 ### Purpose
 
-This application...
+This library provides register and memory read/write and debug control capability via the AHB protocol. 
+
+### How To Import
+
+In your Gemfile add:
+
+~~~ruby
+gem "origen_ahb", ">= <%= Origen.app.version %>"
+~~~
+
+or if your application is a plugin add this to your <code>.gemspec</code>
+
+~~~ruby
+spec.add_development_dependency "origen_ahb", ">= <%= Origen.app.version %>"
+~~~
+
+__NOTE:__ You will also need to include <code>require 'origen_ahb'</code> somewhere in your environment
+if your app is a plugin.
+
 
 ### How To Use
 
-Add quickstart documentation here...
+Include the <code>OrigenAhb</code> module in your DUT class, then hook it up
+to the Origen register API via
+<code>read_register</code> and <code>write_register</code> methods.
 
-### How To Setup the Application Environment
+You must also include a compatible physical driver depending on what debug
+interface your device has.  This **MUST** be implemented in a method called <code>ahb_trans</code>
+at the top-level application (i.e. dut).
 
-Describe how a user would setup a new workspace for this application...
+~~~ruby
+require 'origen_ahb'
+class DUT
+  include Origen::TopLevel
+  include OrigenAhb
+
+  def initialize
+    add_pin :hclk
+    add_pin :hwrite
+    add_pin :haddr
+    add_pin :wdata
+    add_pin :rdata
+    
+    reg :myreg, 0x0012, size: 16 do |reg|
+      reg.bits 15..8, :upper_byte
+      reg.bits 7..0,  :lower_byte
+    end
+    
+  end
+
+  # Hook the Ahb module into the register API, any register read
+  # requests will use the AHB protocol by default
+  def read_register(reg, options={})
+    ahb.read_register(reg, options)
+  end
+
+  # As above for write requests
+  def write_register(reg, options={})
+    ahb.write_register(reg, options)
+  end
+  
+  # Define ahb_trans method at top-level
+  def ahb_trans(options)
+    # Available options here will be:
+    #   options[:haddr] - Address of transaction
+    #   options[:hdata] - Data (either to be written or expected value of read)
+    #   options[:hwrite] - Read or Write transaction
+    #   options[:hsize] - Bus width
+    #   options[:hburst] - 
+    #   options[:hmastlock] - 
+    #   options[:hprot] - 
+    
+    # Drive appropriate pins for Address Phase
+    pin(:hclk).drive(0)
+    ...
+    
+    # Drive appropriate pins for Data Phase
+    pin(:hwdata).drive(options[:hdata])
+    ...  
+  end
+  
+  
+end
+
+DUT.new.myreg.write!(0x55AA)  # => Will generate the required vectors using the AHB bus protocol
+~~~
+
+
+
+
+### How To Setup a Development Environment
+
+[Clone the repository from Github](https://github.com/Origen-SDK/origen_ahb).
+
+An instance of the OrigenAhb driver is hooked up to a dummy DUT
+object for use in the console:
+
+~~~
+origen i
+
+> dut.ahb
+=> #<OrigenAhb::Driver:0x0000001b303570 @owner=<Model/Controller: OrigenAhb::Test::DUT:237392680/OrigenAhb::Test::DUTController:227789200>>
+~~~
+
+Follow the instructions here if you want to make a 3rd party app
+workspace use your development copy of the OrigenAhb plugin:
+[Setting up a Plugin Development Environment](http://origen-sdk.org/origen/guides/plugins)
+
+This plugin also contains a test suite, makes sure this passes before committing
+any changes!
+
+~~~
+origen examples
+~~~
+
+<%= disqus_comments %>
 
 % end
