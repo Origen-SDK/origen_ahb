@@ -1,3 +1,13 @@
+<a class="anchor release_tag" name="v0_2_0_pre10"></a>
+<h2><a href="#v0_2_0_pre10">Tag: v0.2.0.pre10</a></h2>
+
+##### Branch: 'master'
+
+##### by Ronnie Lajaunie on 09-Sep-2016 16:04PM
+
+
+Fix Travic-ci error (remove freescale gem server requirement)
+
 <a class="anchor release_tag" name="v0_2_0_pre9"></a>
 <h2><a href="#v0_2_0_pre9">Tag: v0.2.0.pre9</a></h2>
 
