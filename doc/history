@@ -1,3 +1,15 @@
+<a class="anchor release_tag" name="v0_2_1"></a>
+<h1><a href="#v0_2_1">Tag: v0.2.1</a></h1>
+
+##### Branch: 'master'
+
+##### by Ronnie Lajaunie on 09-Sep-2016 17:38PM
+
+
+* Split dev ruby out into own separate dev module.
+* Fix broken link on github README
+* Lint fixes
+
 <a class="anchor release_tag" name="v0_2_0"></a>
 <h1><a href="#v0_2_0">Tag: v0.2.0</a></h1>
 
