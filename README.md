@@ -8,4 +8,4 @@
 
 An AHB Protocol driver for the Origen SDK.
 
-[See the website](http://origen-sdk.org/origen_ahb) for more info.
+[See the website](http://origen-sdk.org/ahb) for more info.
