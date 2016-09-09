@@ -1,2 +1,2 @@
-OrigenAhb::Test::DUT.new
+OrigenAhbDev::DUT.new
 Origen.mode = :debug
