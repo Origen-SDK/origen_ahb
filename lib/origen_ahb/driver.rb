@@ -19,11 +19,13 @@ module OrigenAhb
       cc '==== AHB Read Transaction ===='
       if reg_or_val.respond_to?('data')
         data = reg_or_val.data
+        name_string = 'Reg: ' + reg_or_val.name.to_s + ' ' 
       else
         data = reg_or_val
         options[:hsize] = 2
+        name_string = ''
       end
-      cc 'Address: 0x' + options[:haddr].to_s(16) + ' Data: 0x' + data.to_s(16) + ' Size: ' + options[:hsize].to_s
+      cc name_string + 'Addr: 0x' + options[:haddr].to_s(16) + ' Data: 0x' + data.to_s(16) + ' Size: ' + options[:hsize].to_s
       $dut.ahb_trans(options)
     end
 
@@ -40,11 +42,13 @@ module OrigenAhb
       cc '==== AHB Write Transaction ===='
       if reg_or_val.respond_to?('data')
         data = reg_or_val.data
+        name_string = 'Reg: ' + reg_or_val.name.to_s + ' ' 
       else
         data = reg_or_val
         options[:hsize] = 2
+        name_string = ''
       end
-      cc 'Address: 0x' + options[:haddr].to_s(16) + ' Data: 0x' + data.to_s(16) + ' Size: ' + options[:hsize].to_s
+      cc name_string + 'Addr: 0x' + options[:haddr].to_s(16) + ' Data: 0x' + data.to_s(16) + ' Size: ' + options[:hsize].to_s
       $dut.ahb_trans(options)
     end
 
