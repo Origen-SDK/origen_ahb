@@ -19,7 +19,7 @@ module OrigenAhb
       cc '==== AHB Read Transaction ===='
       if reg_or_val.respond_to?('data')
         data = reg_or_val.data
-        name_string = 'Reg: ' + reg_or_val.name.to_s + ' ' 
+        name_string = 'Reg: ' + reg_or_val.name.to_s + ' '
       else
         data = reg_or_val
         options[:hsize] = 2
@@ -42,7 +42,7 @@ module OrigenAhb
       cc '==== AHB Write Transaction ===='
       if reg_or_val.respond_to?('data')
         data = reg_or_val.data
-        name_string = 'Reg: ' + reg_or_val.name.to_s + ' ' 
+        name_string = 'Reg: ' + reg_or_val.name.to_s + ' '
       else
         data = reg_or_val
         options[:hsize] = 2
