@@ -2,10 +2,14 @@ module OrigenAhb
   class Driver
     attr_reader :owner
 
+    # Initialize owner
     def initialize(owner, options = {})
       @owner = owner
     end
 
+    # Read register. Handles register model as input or data/address pair.
+    # Sets up AHB parameters values and passes along to pin-layer ahb
+    # transaction method.
     def read_register(reg_or_val, options = {})
       options = {
         haddr:     options[:address] || reg_or_val.address,
@@ -29,6 +33,9 @@ module OrigenAhb
       $dut.ahb_trans(options)
     end
 
+    # Read register. Handles register model as input or data/address pair.
+    # Sets up AHB parameters values and passes along to pin-layer ahb
+    # transaction method.
     def write_register(reg_or_val, options = {})
       options = {
         haddr:     options[:address] || reg_or_val.address,
@@ -52,6 +59,7 @@ module OrigenAhb
       $dut.ahb_trans(options)
     end
 
+    # Convert bit width to HSIZE
     def get_hsize(size)
       if size <= 8
         hsize = 0

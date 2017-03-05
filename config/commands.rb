@@ -25,7 +25,7 @@ when 'specs'
   exit RSpec::Core::Runner.run(['spec'])
 
 
-when 'examples'  
+when 'examples', 'test'
   Origen.load_application
   status = 0
 
@@ -44,6 +44,12 @@ when 'examples'
     status = 1
   end
   puts
+  if @command == 'test'
+    Origen.app.unload_target!
+    require 'rspec'
+    result = RSpec::Core::Runner.run(['spec'])
+    status = status == 1 ? 1 : result
+  end
   exit status  # Exit with a 1 on the event of a failure per std unix result codes
 
 # Always leave an else clause to allow control to fall back through to the
@@ -52,6 +58,7 @@ else
   @application_commands = <<-EOT
  specs        Run the specs (tests), -c will enable coverage
  examples     Run the examples (tests), -c will enable coverage
+ test         Run both specs and examples, -c will enable coverage
   EOT
 
 end

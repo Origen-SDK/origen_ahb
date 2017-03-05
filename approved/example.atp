@@ -1,20 +1,21 @@
 // ***************************************************************************
 // GENERATED:
-//   Time:    09-Sep-2016 11:24AM
+//   Time:    04-Mar-2017 19:54PM
 //   By:      Ronnie Lajaunie
 //   Command: origen g example -t dev.rb -e default.rb
 // ***************************************************************************
 // ENVIRONMENT:
 //   Application
 //     Source:    git@github.com:Origen-SDK/origen_ahb.git
-//     Version:   0.2.0.pre6
-//     Branch:    master(914001b370f) (+local edits)
+//     Version:   0.2.2
+//     Branch:    master(d7a4caf007a) (+local edits)
 //   Origen
 //     Source:    https://github.com/Origen-SDK/origen
-//     Version:   0.7.30
+//     Version:   0.7.31
 //   Plugins
-//     atp:                      0.4.2
-//     origen_testers:           0.7.12
+//     atp:                      0.5.4
+//     origen_doc_helpers:       0.4.3
+//     origen_testers:           0.8.6
 // ***************************************************************************
 import tset ahb;                                                                                
 svm_only_file = no;                                                                             
@@ -35,9 +36,9 @@ start_label pattern_st:
 //                                                                                                                     k                                                                                                           
 // Wait for 240ns
 repeat 6                                                         > ahb                          0 0 X 0 0 X X X XX XXX X XXX XXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
-// Write to top-level register
+// Write to top-level register using reg model
 // ==== AHB Write Transaction ====
-// Address: 0x20000000 Data: 0x5555aaaa Size: 2
+// Reg: top_reg Addr: 0x20000000 Data: 0x5555aaaa Size: 2
                                                                  > ahb                          0 0 X 0 1 0 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
                                                                  > ahb                          0 0 X 0 1 1 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
                                                                  > ahb                          0 0 X 0 1 0 X 1 00 000 0 010 111 00100000000000000000000000000000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
@@ -47,9 +48,33 @@ repeat 6                                                         > ahb          
                                                                  > ahb                          0 0 X 0 1 0 H 1 00 000 0 010 111 00100000000000000000000000000000 01010101010101011010101010101010 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
                                                                  > ahb                          0 0 X 0 1 1 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
                                                                  > ahb                          0 0 X 0 1 0 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+// Write to top-level register using data/address
+// ==== AHB Write Transaction ====
+// Addr: 0x20000000 Data: 0xaaaa5555 Size: 2
+                                                                 > ahb                          0 0 X 0 1 0 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 1 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 0 X 1 00 000 0 010 111 00100000000000000000000000000000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 1 X 1 00 000 0 010 111 00100000000000000000000000000000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 0 H 1 00 000 0 010 111 00100000000000000000000000000000 10101010101010100101010101010101 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 1 H 1 00 000 0 010 111 00100000000000000000000000000000 10101010101010100101010101010101 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 0 H 1 00 000 0 010 111 00100000000000000000000000000000 10101010101010100101010101010101 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 1 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 0 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+// Read from top-level register using data/address
+// ==== AHB Read Transaction ====
+// Addr: 0x20000000 Data: 0xaaaa5555 Size: 2
+                                                                 > ahb                          0 0 X 0 1 0 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 1 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 0 X 0 00 000 0 010 111 00100000000000000000000000000000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 1 X 0 00 000 0 010 111 00100000000000000000000000000000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 0 H 0 00 000 0 010 111 00100000000000000000000000000000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 1 H 0 00 000 0 010 111 00100000000000000000000000000000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX HLHLHLHLHLHLHLHLLHLHLHLHLHLHLHLH ;
+                                                                 > ahb                          0 0 X 0 1 0 H 0 00 000 0 010 111 00100000000000000000000000000000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX HLHLHLHLHLHLHLHLLHLHLHLHLHLHLHLH ;
+                                                                 > ahb                          0 0 X 0 1 1 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
+                                                                 > ahb                          0 0 X 0 1 0 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
 // Write to block-level register
 // ==== AHB Write Transaction ====
-// Address: 0x22000000 Data: 0xba5eba11 Size: 2
+// Reg: control Addr: 0x22000000 Data: 0xba5eba11 Size: 2
                                                                  > ahb                          0 0 X 0 1 0 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
                                                                  > ahb                          0 0 X 0 1 1 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
                                                                  > ahb                          0 0 X 0 1 0 X 1 00 000 0 010 111 00100010000000000000000000000000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
@@ -61,7 +86,7 @@ repeat 6                                                         > ahb          
                                                                  > ahb                          0 0 X 0 1 0 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
 // Read from block-level register
 // ==== AHB Read Transaction ====
-// Address: 0x22000004 Data: 0x220000 Size: 2
+// Reg: status Addr: 0x22000004 Data: 0x220000 Size: 2
                                                                  > ahb                          0 0 X 0 1 0 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
                                                                  > ahb                          0 0 X 0 1 1 X 0 00 000 0 000 000 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;
                                                                  > ahb                          0 0 X 0 1 0 X 0 00 000 0 010 111 00100010000000000000000000000100 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ;

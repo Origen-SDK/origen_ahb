@@ -2,6 +2,7 @@ module OrigenAhbDev
   class DUTController
     include Origen::Controller
 
+    # Method called on any pattern startup to init timeset and pin values
     def startup(options = {})
       tester.set_timeset('ahb', 40)
 
@@ -13,6 +14,7 @@ module OrigenAhbDev
       pin(:resetb).drive(1)
     end
 
+    # Method called on any pattern shutdown to leave pin values in known state
     def shutdown(options = {})
       # Shut everything down
       tester.wait time_in_ns: 250
@@ -21,6 +23,7 @@ module OrigenAhbDev
       cleanup_pins  # Give patterns a known exit condition
     end
 
+    # Set pins to initial pin value
     def init_pins
       pin(:resetb).drive(0)
       pin(:tclk).drive(0)
@@ -29,6 +32,7 @@ module OrigenAhbDev
       pin(:tdo).dont_care
     end
 
+    # Set pins to safe state for pattern end
     def cleanup_pins
       pin(:resetb).drive(0)
       pin(:tclk).drive(0)
@@ -37,14 +41,17 @@ module OrigenAhbDev
       pin(:tdo).dont_care
     end
 
-    def write_register(reg, options = {})
-      ahb.write_register(reg, options)
+    # Dut-level register write using AHB driver
+    def write_register(reg_or_val, options = {})
+      ahb.write_register(reg_or_val, options)
     end
 
-    def read_register(reg, options = {})
-      ahb.read_register(reg, options)
+    # Dut-level register read using AHB driver
+    def read_register(reg_or_val, options = {})
+      ahb.read_register(reg_or_val, options)
     end
 
+    # Pin driver layer of AHB protocol, used by AHB
     def ahb_trans(options = {})
       pin(:hclk).drive(0)
       pins(:htrans).drive(0)
